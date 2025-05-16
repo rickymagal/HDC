@@ -10,12 +10,13 @@ This work proposes the translation of programs written in a Haskell subset into 
 
 ## Repository Structure
 
-| Directory   | Content                                                                                                                   |
-|-------------|---------------------------------------------------------------------------------------------------------------------------|
-| `docs/`     | Project proposal (`anteprojeto.pdf`), monograph (`monografia.pdf`), and formal language definition (`haskell-subset.ebnf`). |
-| `src/`      | Compiler source code.                                                                                                     |
-| `test/`     | Unit and integration test cases.                                                                                          |
-| `docs/src/` | Configuration for automatic documentation (Doxygen, Haddock, pdoc).        
+| Directory         | Content                                                                                                                   |
+|-------------------|---------------------------------------------------------------------------------------------------------------------------|
+| `docs/`           | Project proposal (`anteprojeto.pdf`), monograph (`monografia.pdf`), and formal language definition (`haskell-subset.ebnf`). |
+| `src/`            | Compiler source code.                                                                                                     |
+| `test/`           | Unit and integration test cases.                                                                                          |
+| `test/ast-images` | Generated AST images.                                                                                                     |
+| `test/output`     | Generated `.dot` files.                                                                                                   |
 
 ## Execution
 
