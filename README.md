@@ -25,6 +25,7 @@ This work proposes the translation of programs written in a Haskell subset into 
 ```bash
 # From the root of the project, run:
 make
+```
 
 ## Dependencies
 
