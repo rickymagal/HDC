@@ -15,14 +15,29 @@ This work proposes the translation of programs written in a Haskell subset into 
 | `docs/`     | Project proposal (`anteprojeto.pdf`), monograph (`monografia.pdf`), and formal language definition (`haskell-subset.ebnf`). |
 | `src/`      | Compiler source code.                                                                                                     |
 | `test/`     | Unit and integration test cases.                                                                                          |
-| `docs/src/` | Configuration for automatic documentation (Doxygen, Haddock, pdoc).                                                        |
+| `docs/src/` | Configuration for automatic documentation (Doxygen, Haddock, pdoc).        
+
+## Execution
+
+### Analysis step (generates AST images on test/ast-images and .dot files on test/output)
+
+
+```bash
+# From the root of the project, run:
+make
 
 ## Dependencies
 
 GHC (Glasgow Haskell Compiler)
+
 Cabal (Haskell Package Manager)
+
 Alex (Lexer generator)
+
 Happy (Parser generator)
+
 Haddock (Haskell documentation tool)
+
 Graphviz (for rendering DOT graphs)
+
 Make (build tool)
