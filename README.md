@@ -1,8 +1,10 @@
-# HDC - Haskell Dataflow Compiler
+# HTC - Haskell TALM Compiler
 
 Repository for the final undergraduate project presented at the Department of Computing, **UFES** (2nd semester 2025).  
 **Advisor**: Prof. Dr. Alberto Ferreira de Souza  
 **Co-advisor**: Prof. Dr. Tiago Assumpção de Oliveira Alves
+
+Code documents: https://rickymagal.github.io/HTC/
 
 ## Introduction
 
