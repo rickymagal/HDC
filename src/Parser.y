@@ -5,10 +5,7 @@ import Syntax
 import Lexer (Token(..), PosnToken, AlexPosn)
 }
 
-%name parse
-%tokentype { (AlexPosn, Token) }
-%error { parseError }
-
+%nonassoc   "->"
 %left "||"
 %left "&&"
 %nonassoc "==" "/="
@@ -16,7 +13,13 @@ import Lexer (Token(..), PosnToken, AlexPosn)
 %left "+" "-"
 %left "*" "/" "%"
 %right "not" "-"
-%left APP   -- aplicação
+%right ";"
+%left APP   
+
+
+%name parse
+%tokentype { (AlexPosn, Token) }
+%error { parseError }
 
 %token
   ";"           { (_, TokenSemi) }
@@ -65,16 +68,12 @@ Program :: { Program }
 
 -- DeclList: declarações separadas por ';' (com trailing opcional)
 DeclList :: { [Decl] }
-    :                               { [] }
-    | Decl RestDecls                { $1 : $2 }
-
-RestDecls :: { [Decl] }
-    :                               { [] }
-    | ";" Decl RestDecls            { $2 : $3 }
-    | ";"                           { [] }
+    : Decl                           { [$1] }
+    | Decl ";" DeclList             { $1 : $3 }
 
 Decl :: { Decl }
     : ident Params "=" Expr         { FunDecl $1 (reverse $2) $4 }
+
 
 Params :: { [Ident] }
     :                               { [] }
@@ -108,16 +107,15 @@ CaseExpr :: { Expr }
     : "case" Expr "of" Alts         { Case $2 $4 }
 
 Alts :: { [(Pattern,Expr)] }
-    -- pelo menos um Alt, com ';' entre eles e opcional no fim
-    : Alt RestAlts                  { $1 : $2 }
+    : AltList                       { $1 }
 
-RestAlts :: { [(Pattern,Expr)] }
-    :                               { [] }
-    | ";" Alt RestAlts              { $2 : $3 }
-    | ";"                           { [] }
+AltList :: { [(Pattern,Expr)] }
+    : Alt                           { [$1] }
+    | AltList Alt                  { $1 ++ [ $2 ] }
 
 Alt :: { (Pattern,Expr) }
-    : Pattern "->" Expr             { ($1,$3) }
+    : Pattern "->" Expr ";"        { ($1,$3) }
+
 
 LetExpr :: { Expr }
     : "let" DeclList "in" Expr      { Let (reverse $2) $4 }
@@ -183,7 +181,7 @@ ExprUnary :: { Expr }
 -- aplicação n-ária
 
 ExprApp :: { Expr }
-    : Atom AppTail                  { foldl App $1 $2 }
+    : Atom AppTail  %prec APP       { foldl App $1 $2 }
 AppTail :: { [Expr] }
     :                               { [] }
     | Atom AppTail                  { $1 : $2 }
@@ -215,10 +213,11 @@ ExprListTail :: { [Expr] }
     | "," Expr ExprListTail         { $2 : $3 }
 
 Tuple :: { Expr }
-    : "(" Expr ExprTupleTail ")"    { Tuple ($2 : $3) }
-ExprTupleTail :: { [Expr] }
+    : "(" Expr "," Expr TupleTail ")"  { Tuple ($2 : $4 : $5) }
+
+TupleTail :: { [Expr] }
     :                               { [] }
-    | "," Expr ExprTupleTail        { $2 : $3 }
+    | "," Expr TupleTail           { $2 : $3 }
 
 -- padrões
 
