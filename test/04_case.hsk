@@ -1,0 +1,3 @@
+-- Case expression with tuple pattern
+fstPair = \p -> case p of
+  (x, _) -> x;
