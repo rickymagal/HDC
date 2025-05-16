@@ -1,5 +1,5 @@
 (* ---------- Programa ---------- *)
-Program        = { Decl } ;
+Program        = Decl { ";" Decl } ;
 
 (* ---------- Declarações ---------- *)
 Decl           = FunDecl ;
@@ -23,7 +23,7 @@ CaseExpr       = "case" Expr "of" { Alt } ;
 
 Alt            = Pattern "->" Expr ;
 
-LetExpr        = "let" { Decl } "in" Expr ;
+LetExpr        = "let" Decl { ";" Decl } "in" Expr ;
 
 AppExpr        = AppExpr Atom
                | Atom ;
@@ -82,4 +82,3 @@ String         = '"' { AnyChar } '"' ;
 Letter         = "A" | ... | "Z" | "a" | ... | "z" ;
 Digit          = "0" | ... | "9" ;
 AnyChar        = ? any Unicode character ? ;
-
